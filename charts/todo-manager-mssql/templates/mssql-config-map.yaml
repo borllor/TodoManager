@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mssql-connection-configmap
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: mvc
+data:
+  db-connection-string: Server=mssql-service-todo;Database=TodoItemContext;User=SA;Password=li@123456;

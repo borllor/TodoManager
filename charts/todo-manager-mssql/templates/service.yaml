@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+apiVersion: v1
+metadata:
+  name: todo-manager
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: mvc
+  ports:
+  - protocol: TCP
+    port: {{ .Values.web.port }}
+    targetPort: {{ .Values.web.port }}
+  type: LoadBalancer

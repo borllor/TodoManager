@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: todo-manager
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: mvc
+  replicas: {{ .Values.web.image.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: mvc
+    spec:
+      containers:
+      - name: mvc
+        image: {{ .Values.web.image.dockerHubId }}/{{ .Values.web.image.name }}:{{ .Values.web.image.tag }}
+        ports:
+        - containerPort: {{ .Values.web.port }}
+        resources:
+          limits:
+            cpu: "1"
+            memory: "200Mi"
+          requests:
+            cpu: "0.1"
+        env:
+          - name: ConnectionStrings__TodoItemContext
+            valueFrom:
+              configMapKeyRef:
+                name: mssql-connection-configmap
+                key: db-connection-string

@@ -8,7 +8,7 @@ services:
       ports:
         - "80:80"
       environment:
-        ConnectionStrings__TimeManagerContext: "Server=db;Database=TodoItemContext;User=sa;Password=li@123456;"
+        ConnectionStrings__TodoItemContext: "Server=db;Database=TodoItemContext;User=sa;Password=li@123456;"
       depends_on:
         - db
 
