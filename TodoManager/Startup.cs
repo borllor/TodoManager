@@ -2,12 +2,15 @@ using System;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TodoManager.Dal;
+using TodoManager.Dal.Cache;
 using TodoManager.Domain.Services;
+using TodoManager.Filter;
 
 namespace TodoManager
 {
@@ -26,6 +29,8 @@ namespace TodoManager
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureMediator(services);
+            ConfigCache(services);
+            ConfigMvc(services);
             //config cors
             ConfigCors(services);
 
@@ -78,6 +83,32 @@ namespace TodoManager
         private void ConfigServices(IServiceCollection services)
         {
             services.AddSingleton<LoginService>();
+        }
+
+        private void ConfigCache(IServiceCollection services)
+        {
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = Configuration.GetConnectionString("RedisConnection");
+                option.InstanceName = "master";
+            });
+            services.AddSingleton<IDisctributedCacheProvider, RedisProdiver>();
+
+        }
+
+        private void ConfigMvc(IServiceCollection services)
+        {
+            services.AddMvcCore(options =>
+            {
+                options.Filters.Add(typeof(ValidateModelFilter));
+            });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+                options.SuppressInferBindingSourcesForParameters = true;
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         private void ConfigDbContext(IServiceCollection services)

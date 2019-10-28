@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TodoManager.Bus;
 using TodoManager.Domain;
 using TodoManager.Domain.Commands;
+using TodoManager.Filter;
 using TodoManager.Framework.Querys;
 using TodoManager.Models;
 using TodoManager.Models.Dto;
@@ -12,6 +13,7 @@ namespace TodoManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Auth]
     public class TodoItemsController : ControllerBase
     {
         private readonly ICommandBus commandBus;
@@ -38,7 +40,7 @@ namespace TodoManager.Controllers
         public async Task<SimpleResponseDto<TodoItemDto>> Get(Guid id)
         {
             Task<TodoItemDto> todoItemDto = queryBus.Send<GetTodoItemsQuery, TodoItemDto>(new GetTodoItemsQuery(id));
-            return  SimpleResponseDto<TodoItemDto>.OK(todoItemDto.Result);
+            return SimpleResponseDto<TodoItemDto>.OK(todoItemDto.Result);
         }
     }
 }
