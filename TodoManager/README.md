@@ -2,10 +2,15 @@
 
 Welcome you to TodoManager project.
 This project is to manage my time via using todo item with state(Todo, Doing, Done).
-1. Address: [http://52.163.202.195/](http://52.163.202.195/)
-2. Todo Items: [http://52.163.202.195/api/todoitems](http://52.163.202.195/api/todoitems)
-3. Please login before visiting todo items({"username":"admin", "password":"123456"}).
-4. My azure account: username: borllor@163.com, password: li@123456
+1. Please login before visiting "/api/todoitems" API({"username":"admin", "password":"123456"}).
+2. My azure account: username: borllor@163.com, password: li@123456
+
+## Development Environment
+1. Mac OS
+2. Visual studio 2019 for mac and Visual studio code
+3. .Net Core 3.0
+4. SQL Server
+5. Azure cloud
 
 ## Summary
 1. The project "TodoManager" uses Terraform, provision a k8s cluster in Azure.
@@ -57,5 +62,3 @@ $ docker push borllor/todo-manager:0.1
 $ helm package todo-manager-mssql
 
 $ helm install todo-manager-mssql
-
-git commit -m "add create-aks-cluster.sh file to create a new aks cluster."
