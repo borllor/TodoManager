@@ -1,0 +1,24 @@
+﻿version: "3"
+services:
+    web:
+      container_name: todo-manager
+      build: 
+        dockerfile: Dockerfile
+        context: TodoManager
+      ports:
+        - "80:80"
+      environment:
+        ConnectionStrings__TimeManagerContext: "Server=db;Database=TodoItemContext;User=sa;Password=li@123456;"
+      depends_on:
+        - db
+
+    db:
+      container_name: sql-server
+      image: "microsoft/mssql-server-linux"
+      expose:
+        - "1433"
+      environment:
+        SA_PASSWORD: "li@123456"
+        ACCEPT_EULA: "Y"
+      ports:
+        - "1433:1433"
