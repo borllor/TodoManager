@@ -5,6 +5,7 @@ This project is to manage my time via using todo item with state(Todo, Doing, Do
 1. Address: [http://52.163.202.195/](http://52.163.202.195/)
 2. Todo Items: [http://52.163.202.195/api/todoitems](http://52.163.202.195/api/todoitems)
 3. Please login before visiting todo items({"username":"admin", "password":"123456"}).
+4. My azure account: username: borllor@163.com, password: li@123456
 
 ## Summary
 1. Project "TodoManager" that use Terraform, provision a k8s cluster in Azure.
@@ -38,8 +39,8 @@ GET /api/job/todo/checkin | Used to call by Quartz pre day  | None | None
 
 
 ## Infrastructure
-Load k8s dashboard.
-$ az aks browse --resource-group azure-k8stest --name k8stest
+Create aks cluster and access to k8s dashboard.
+$ sh ./create-aks-cluster.sh
 
 $ docker-compose build
 
@@ -57,3 +58,4 @@ $ helm package todo-manager-mssql
 
 $ helm install todo-manager-mssql
 
+git commit -m "add create-aks-cluster.sh file to create a new aks cluster."
