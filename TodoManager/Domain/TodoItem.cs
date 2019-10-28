@@ -20,6 +20,7 @@ namespace TodoManager.Domain
             Id = id;
             Name = name;
             State = state;
+            Deadline = deadline;
 
             Append(new TodoItemEvent(TodoItemEventTypeEnum.Created, this));
         }
@@ -38,6 +39,11 @@ namespace TodoManager.Domain
             State = state;
 
             Append(new TodoItemEvent(TodoItemEventTypeEnum.StateChanged, this));
+        }
+
+        public void Delete()
+        {
+            Append(new TodoItemEvent(TodoItemEventTypeEnum.Deleted, this));
         }
     }
 }

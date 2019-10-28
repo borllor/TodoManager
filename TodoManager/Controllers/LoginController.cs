@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoManager.Dal.Cache;
 using TodoManager.Domain.Services;
@@ -23,25 +24,28 @@ namespace TodoManager.Controllers
         }
 
         [HttpPost]
-        public SimpleResponseDto<LoginResponseDto> SignIn([FromBody] LoginRequestDto loginRequestDto)
+        public Task<SimpleResponseDto<LoginResponseDto>> SignIn([FromBody] LoginRequestDto loginRequestDto)
         {
-            SimpleResponseDto<LoginResponseDto> simpleResponseDto = null;
-            UserDto user = loginService.SignIn(loginRequestDto.Username, loginRequestDto.Password);
-            if (user != null)
+            return Task.Run(() =>
             {
-                string accessToken = Guid.NewGuid().ToString("N");
-                //cache accessToken and user in 30 mins 
-                cacheProvider.Set(accessToken, user, DateTime.Now.AddMinutes(30));
-                LoginResponseDto loginResponseDto = new LoginResponseDto();
-                loginResponseDto.AccessToken = accessToken;
-                loginResponseDto.UserInfo = user;
-                simpleResponseDto = SimpleResponseDto<LoginResponseDto>.OK(loginResponseDto);
-            }
-            else
-            {
-                simpleResponseDto = SimpleResponseDto<LoginResponseDto>.Failed(Models.Enum.ResponseCodeEnum.ResponseCode_100);
-            }
-            return simpleResponseDto;
+                SimpleResponseDto<LoginResponseDto> simpleResponseDto = null;
+                UserDto user = loginService.SignIn(loginRequestDto.Username, loginRequestDto.Password);
+                if (user != null)
+                {
+                    string accessToken = Guid.NewGuid().ToString("N");
+                    //cache accessToken and user in 30 mins 
+                    cacheProvider.Set(accessToken, user, DateTime.Now.AddMinutes(30));
+                    LoginResponseDto loginResponseDto = new LoginResponseDto();
+                    loginResponseDto.AccessToken = accessToken;
+                    loginResponseDto.UserInfo = user;
+                    simpleResponseDto = SimpleResponseDto<LoginResponseDto>.OK(loginResponseDto);
+                }
+                else
+                {
+                    simpleResponseDto = SimpleResponseDto<LoginResponseDto>.Failed(Models.Enum.ResponseCodeEnum.ResponseCode_100);
+                }
+                return simpleResponseDto;
+            });
         }
 
         [HttpDelete]

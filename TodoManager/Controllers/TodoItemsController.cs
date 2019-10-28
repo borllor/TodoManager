@@ -28,12 +28,12 @@ namespace TodoManager.Controllers
 
         // POST: api/todoitems
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateTodoItemCommand command)
+        public Task<SimpleResponseDto<TodoItemDto>> Post([FromBody] CreateTodoItemCommand command)
         {
             command.Id = Guid.NewGuid();
-            await commandBus.Send(command);
-
-            return Created("api/todoitems", command.Id);
+            Task task = commandBus.Send(command);
+            task.Wait();
+            return Get(command.Id);
         }
 
         // PUT: api/todoitems/{id}
@@ -64,7 +64,7 @@ namespace TodoManager.Controllers
                 });
             }
 
-            return new Task<SimpleResponseDto<bool>>(() => { return SimpleResponseDto<bool>.Failed(ResponseCodeEnum.ResponseCode_100); });
+            return Task.Run(() => { return SimpleResponseDto<bool>.Failed(ResponseCodeEnum.ResponseCode_100); });
         }
 
         // GET: api/todoitems

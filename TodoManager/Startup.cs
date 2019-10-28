@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,10 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TodoManager.Bus;
 using TodoManager.Dal;
 using TodoManager.Dal.Cache;
+using TodoManager.Domain.Commands;
+using TodoManager.Domain.Events;
+using TodoManager.Domain.Handlers;
 using TodoManager.Domain.Services;
 using TodoManager.Filter;
+using TodoManager.Framework.Events;
+using TodoManager.Framework.Handlers;
+using TodoManager.Framework.Querys;
+using TodoManager.Models;
 
 namespace TodoManager
 {
@@ -29,13 +38,16 @@ namespace TodoManager
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureMediator(services);
+
+            //config dbContext
+            ConfigDbContext(services);
+
+            ConfigureCQRS(services);
             ConfigCache(services);
             ConfigMvc(services);
             //config cors
             ConfigCors(services);
 
-            //config dbContext
-            ConfigDbContext(services);
 
             //config services
             ConfigServices(services);
@@ -67,6 +79,23 @@ namespace TodoManager
         {
             services.AddScoped<IMediator, Mediator>();
             services.AddTransient<ServiceFactory>(sp => t => sp.GetService(t));
+        }
+
+        private static void ConfigureCQRS(IServiceCollection services)
+        {
+            services.AddScoped<ICommandBus, CommandBus>();
+            services.AddScoped<IQueryBus, QueryBus>();
+            services.AddScoped<IEventBus, EventBus>();
+
+            services.AddScoped<IRequestHandler<CreateTodoItemCommand, Unit>, TodoItemCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateTodoItemCommand, Unit>, TodoItemCommandHandler>();
+            services.AddScoped<IRequestHandler<ChangeStateOfTodoItemCommand, Unit>, TodoItemCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteTodoItemCommand, Unit>, TodoItemCommandHandler>();
+
+            services.AddScoped<IRequestHandler<GetTodoItemQuery, TodoItemDto>, TodoItemQueryHandler>();
+            services.AddScoped<IRequestHandler<GetTodoItemsQuery, IEnumerable<TodoItemDto>>, TodoItemQueryHandler>();
+
+            services.AddScoped<INotificationHandler<TodoItemEvent>, TodoItemEventHandler>();
         }
 
         private void ConfigCors(IServiceCollection services)

@@ -11,7 +11,7 @@ namespace TodoManager.Domain.Handlers
         public Task Handle(TodoItemEvent notification, CancellationToken cancellationToken)
         {
             //TODO store events
-            throw new NotImplementedException();
+            return Task.Run(() => { });
         }
     }
 }

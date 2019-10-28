@@ -1,15 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TodoManager.Dal;
 using TodoManager.Domain;
-using TodoManager.Domain.Commands;
-using TodoManager.Framework.Command;
-using TodoManager.Framework.Events;
 using TodoManager.Framework.Query;
 using TodoManager.Framework.Querys;
 using TodoManager.Models;

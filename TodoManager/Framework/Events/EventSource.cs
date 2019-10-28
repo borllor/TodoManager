@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace TodoManager.Framework.Events
 {
@@ -7,6 +9,7 @@ namespace TodoManager.Framework.Events
     {
         public TType Id { get; set; }
 
+        [NotMapped]
         public Queue<IEvent> PendingEvents { get; private set; }
 
         protected EventSource()
