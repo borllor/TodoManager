@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using TodoManager.Dal.Cache;
 using TodoManager.Domain.Services;
 using TodoManager.Filter;
@@ -52,6 +51,7 @@ namespace TodoManager.Controllers
             if (accessToken != null)
             {
                 //clear cache and other actions.
+                loginService.SignOut();
                 cacheProvider.Delete((string)accessToken);
             }
 
