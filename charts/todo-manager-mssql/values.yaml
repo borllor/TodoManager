@@ -1,5 +1,5 @@
 namespace: todo-manager-namespace
-buildId: 11
+buildId: 12
 web:
   image:
     dockerHubId: borllor
