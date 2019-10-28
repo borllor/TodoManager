@@ -1,21 +1,20 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using TodoManager.Dal;
+using TodoManager.Domain.Services;
 
 namespace TodoManager
 {
     public class Startup
     {
+        private const String RUSH_CORS_POLICY_NAME = "TodoItemCorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +26,15 @@ namespace TodoManager
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureMediator(services);
+            //config cors
+            ConfigCors(services);
+
+            //config dbContext
+            ConfigDbContext(services);
+
+            //config services
+            ConfigServices(services);
+
             services.AddControllers();
         }
 
@@ -54,6 +62,30 @@ namespace TodoManager
         {
             services.AddScoped<IMediator, Mediator>();
             services.AddTransient<ServiceFactory>(sp => t => sp.GetService(t));
+        }
+
+        private void ConfigCors(IServiceCollection services)
+        {
+            services.AddCors(cors =>
+            {
+                cors.AddPolicy(RUSH_CORS_POLICY_NAME, p =>
+                {
+                    p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+        }
+
+        private void ConfigServices(IServiceCollection services)
+        {
+            services.AddSingleton<LoginService>();
+        }
+
+        private void ConfigDbContext(IServiceCollection services)
+        {
+            services.AddDbContext<TodoItemContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("TodoItemContext"));
+            });
         }
 
     }

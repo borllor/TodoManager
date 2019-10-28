@@ -1,9 +1,11 @@
 ﻿using System;
+using TodoManager.Framework;
+
 namespace TodoManager.Domain
 {
-    public class User : IAggregate<long>
+    public class User : IAggregate<Guid>
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
     }

@@ -14,14 +14,22 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Command\" />
-    <Folder Include="Query\" />
-    <Folder Include="Bus\" />
-    <Folder Include="Command\Handler\" />
-    <Folder Include="Query\Handler\" />
     <Folder Include="Dal\" />
     <Folder Include="Domain\" />
     <Folder Include="Domain\Services\" />
+    <Folder Include="Domain\Events\" />
+    <Folder Include="Framework\" />
+    <Folder Include="Framework\Events\" />
+    <Folder Include="Framework\Bus\" />
+    <Folder Include="Framework\Command\" />
+    <Folder Include="Framework\Query\" />
+    <Folder Include="Domain\Querys\" />
+    <Folder Include="Domain\Commands\" />
+    <Folder Include="Domain\Handlers\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Enum\" />
+    <Folder Include="Utility\" />
+    <Folder Include="Filter\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Query\IQueryBus.cs" />
