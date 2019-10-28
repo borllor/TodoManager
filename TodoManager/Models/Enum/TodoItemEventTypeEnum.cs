@@ -9,6 +9,7 @@ namespace TodoManager.Models.Enum
         Created = 3,
         Updated = 4,
         Deleted = 5,
-        StateChanged = 6
+        StateChanged = 6,
+        NeedToCreateNew = 7
     }
 }

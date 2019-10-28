@@ -48,7 +48,6 @@ namespace TodoManager
             //config cors
             ConfigCors(services);
 
-
             //config services
             ConfigServices(services);
 
