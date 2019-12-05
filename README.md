@@ -33,16 +33,6 @@ PUT /api/todoitems/{id}/{state} | change an existing todo-item's state | accessT
 PUT /api/todoitems/{id} | update an existing todo-item | accessToken and todo item | Boolean
 GET /api/job/todo/checkin | Used to call by Quartz per day  | None | None
 
-## Timesheet
-1. 2019-10-24: Analyze file "RUSH.DotNetCore.CompetencyTest.pdf" and make a plan and todo items.
-2. 2019-10-25: Read some articles about Azure, K8s, Terraform, Helm and so on.
-3. 2019-10-26: Construct the environments of these infrastructures in terms of Azure, K8s, SQL Database, Redis, Load Balance, Storage, Terraform and Helm. And Write simple demo of asp.net core to realize CI via using these infrastructures.
-4. 2019-10-27: Construct todo web application. I want to structure a todo items of my time, and then code, test, debug and deploy, etc.
-5. 2019-10-28: Add distributed cached object Redis to project to realize login model.
-6. 2019-10-28: Writing summary file README.md.
-7. 2019-10-28: Recast project to use CQRS and Event Sourcing pattern.
-
-
 ## Related instructions
 Create aks cluster and access to k8s dashboard.
 $ sh ./create-aks-cluster.sh
