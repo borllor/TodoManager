@@ -2,8 +2,7 @@
 
 Welcome you to TodoManager project.
 This project is to manage my time via using todo item with state(Todo, Doing, Done).
-1. Please login before visiting "/api/todoitems" API({"username":"admin", "password":"123456"}).
-2. My azure account: username: borllor@163.com, password: li@123456
+Please login before visiting "/api/todoitems" API({"username":"admin", "password":"123456"}).
 
 ## Development Environment
 1. Mac OS
